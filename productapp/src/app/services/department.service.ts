@@ -2,7 +2,7 @@ import { Department } from './../interfaces/department';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, delay } from 'rxjs/operators';
 
 
 @Injectable({
@@ -19,7 +19,7 @@ export class DepartmentService {
   get(): Observable<Department[]> {
     if (!this.loaded) {
       this.http.get<Department[]>(this.url)
-        .pipe(tap((deps) => console.log(deps)))
+        .pipe(tap((deps) => console.log(deps)), delay(1000))
         .subscribe(this.departmentSubject$);
       this.loaded = true;
     }

@@ -3,7 +3,7 @@ import { Product } from './../interfaces/product';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, filter } from 'rxjs/operators';
 import { Department } from '../interfaces/department';
 
 @Injectable({
@@ -23,6 +23,7 @@ export class ProductService {
         this.DepartService.get())
         .pipe(
           tap(([products, departments]) => console.log(products, departments)),
+          filter(([products, departments]) => products != null && departments != null),
           map(([products, departments]) => {
             for (const p of products) {
               let ids = (p.departments as string[]);

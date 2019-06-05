@@ -32,7 +32,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       this.service.update({ name: this.depName, _id: this.depEdit._id })
         .subscribe((dep) => {
           this.notify('Atualizado com sucesso!');
-          this.clearFields();
         }, (err) => {
           this.notify('Erro ao atualizar!');
           console.error(err);
@@ -47,6 +46,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
         console.error(err);
       });
     }
+    this.clearFields();
   }
 
   clearFields() {
@@ -54,7 +54,9 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     this.depEdit = null;
   }
 
-  cancel() { console.log('testeaa'); }
+  cancel() {
+    this.clearFields();
+  }
 
   edit(dep: Department) {
     this.depName = dep.name;
@@ -67,8 +69,7 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       this.notify('Deletado com sucesso!');
       this.clearFields();
     }, (err) => {
-      this.notify('Erro ao deletar!');
-      console.error(err);
+      this.notify(err.error.msg);
     });
   }
 
